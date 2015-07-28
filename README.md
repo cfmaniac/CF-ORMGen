@@ -31,5 +31,4 @@ V.1.0.1 :
 To do:
 =========
    - Make an interface for Foreign-Key Type Selections (many-to-many, many-to-one, one-to-many)
-   - Make an interface for 'Update Existing Components'
-   -    
+   - Create Application.cfc for ORM Config  
