@@ -10,7 +10,6 @@ Change Log:
 V.10.2.4:
   - Updated to Add support for Foreign Key Constraints (The Foreign Keys are Automatically created as 'many-to-many' relationships)
   - Updated Source code to Overwrite pre-existing CFC Files, in the case that the Components need to be updated
-  - Added checkmark for 'Overwrite' pre-existing CFC Files.
   - Removed Hardcoded inline-styles and placed into stylesheet definition
     
 V.1.0.2.3:
