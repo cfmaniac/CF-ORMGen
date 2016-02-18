@@ -16,7 +16,7 @@ Change Log:
 
 Tested on:
 ========== 
-* Adobe ColdFusion (ACF) 10 +
+* Adobe ColdFusion (ACF) 10 (V.10,0,18,296330)
 * SQL Server
 * MySQL (Community Edition)
 * Apache Derby Datasources (ACF only)
