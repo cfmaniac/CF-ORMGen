@@ -1,114 +1,122 @@
-<!---ORM CFC Generator By J Harvey jharvey@cfmaniac.com
-Creates a CFScript CFC for ORM Database Components
-Version 1.0.2.4
-
-Notes:
---Updated to crawl over all Tables within a Specified DataSource
---Updated to Support MySQL DataSources
---Updated to Add support for Foreign Key Constraints
---Updated to Dynamically Overwrite Pre-Existing Components for Updates
---Moved inline harcoded CSS to StyleSheet Reference
-
-Still to Do:
---Create Application.cfc for ORM Config
---Create UI for ForeignKey Types (many-to-many, many-to-one, one-to-many)
---->
 <cfscript>
-	cformgen.author = 'J Harvey';
-	cformgen.version = '1.0.2.4';
+	local.ORMGen = {
+		author = "J Harvey",
+		authorEmail = "jharvey@cfmaniac.com",
+		systemName = 'ColdFusion ORM Component Generator',
+		version = '2.0.0',
+		comDir = '#expandPath('/generated/')#',
+		updates = 'Migrated Layout to BootStrap4 | Updates for ColdFusion | Code Generation Clean-up from previous Versions | Updated to Include Foreign Key Relationships'
+	};
+	
+	//Removes WhiteSpace from The Component
+	public function  removeWhitepace(required string stringtoclean){
+		var tempstring ='';
+		tempstring = arguments.stringtoclean;
+		//tempstring = replace(tempstring, "#Chr(9)#", "","ALL"); 
+        //tempstring = replace(tempstring, "#Chr(13)##Chr(10)#", "","ALL"); 
+        //tempstring = replace(tempstring, "#Chr(13)#", "", "ALL");
+        //tempstring = replace(tempstring, "#Chr(10)#", "", "ALL");
+        return tempstring;
+	}
 </cfscript>
+
 <cfoutput>
-<html>
-	<head>
-		<title>ORM CFC Generator - #cformgen.version#</title>
-		<style>
-			form {
-			text-align: center; 
-			margin-left: auto; 
-			margin-right: auto; 
-			width: 850px; 
-			height: 250px; 
-			border:2px solid ##f5f5f5; 
-			border-radius:4px; 
-			background: ##eeeeee;
-			}
-			
-			form p:last-child{
-			margin-bottom: 15px;
-			}
-			
-			##results{
-			margin-left: auto; 
-			margin-right: auto; 
-			overflow: auto; 
-			width: 850px; 
-			height: 450px; 
-			border:2px solid ##f5f5f5; 
-			border-radius:4px; 
-			background: ##fff;
-			}
-			
-			##results h2{
-			text-align: center;
-			}
-			
-		</style>
-		
-		
-	</head>
-</html>
-<form method="post" style="">
-<h2>ColdFusion ORM Component Generator</h2>
-<p>Your Components will be created within the <em>/CFC/-datasourcename-</em> folder.</p>
-Datasource:<input type="text" name="tempdsn" value=""><br>
-<!---input type="checkbox" name="overwrite" value="true" <cfif structKeyExists(form, 'overwrite')>checked="checked"</cfif><em>Overwrite Existing CFCs for DataSource</em><br--->
-<input type="submit">
-<p>Version #cformgen.version#</p>
-</form>
+	<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>#local.ORMGen.systemName# #local.ORMGen.version#</title>
+  <meta name="description" content="#local.ORMGen.systemName# #local.ORMGen.version#" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="mobile-web-app-capable" content="yes">
+ 
+  
+  <!-- style -->
+  <link rel="stylesheet" href="assets/animate.css/animate.min.css" type="text/css" />
+  <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="assets/styles/app.min.css" type="text/css" />
+  <link rel="stylesheet" href="assets/styles/font.css" type="text/css" />
+</head>
+<body>
+  <header>
+      <nav class="navbar navbar-md navbar-fixed-top white">
+        <div class="container">
+          <a data-toggle="collapse" data-target="##navbar-1" class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+            <i class="fa fa-bars"></i>
+          </a>
+          
+          <!-- brand -->
+          <a class="navbar-brand md" href="##home" ui-scroll-to="home">
+            
+            <span class="hidden-folded inline">#local.ORMGen.systemName#</span>
+          </a>
+          <!-- / brand -->
 
-<cfif isdefined('form.tempdsn')>
-<div id="results">
-<h2>Generating your components...</h2>
-
-<!--- We Run Some Checks First --->
-<cfdbinfo datasource="#form.tempdsn#" name="result" type="version">
-<cfdbinfo datasource="#form.tempdsn#" name="Database" type="tables">
-<!--- <cfdump var="#database#" abort="true" /> --->
-
-  <cfif (CompareNoCase(result.Database_ProductName, "MySQL") EQ 0)>
-	  <!--- MYSQL --->
-	  <cfset table_names = database />
-	  <cfif (isDefined("Database.table_cat"))>
-	  <cfquery name="table_names" datasource="#form.tempdsn#" >
-			select table_name from information_schema.tables where table_schema='#Database.table_cat#'
-		</cfquery>
+          <!-- nabar right -->
+          <ul class="nav navbar-nav pull-right">
+            <li class="nav-item">
+              
+            </li>
+          </ul>
+          <!-- / navbar right -->
+          <!-- navbar collapse -->
+          <div class="collapse navbar-toggleable-sm text-center white" id="navbar-1">
+            
+            <!-- / link and dropdown -->
+          </div>
+          <!-- / navbar collapse -->
+        </div>
+      </nav>
+  </header>
+  
+  <div class="page-content" id="home">
+        <div class="p-y-lg white" id="demos">
+      <div class="container p-y-lg text-primary-hover">
+        <p class="text-muted m-b-lg">#local.ormgen.systemname# automatically generates ColdFusion Components (CFC's) based off of your
+        Datasource's Database tables.</p>
+        
+        <form role="form" method="post" class="ng-pristine ng-valid">
+        <div class="form-group">
+        <label for="exampleInputEmail1">Put your Datasource Name Below</label>
+            <input type="text" class="form-control" name="dsn" id="dsn" placeholder="myDataSource">
+        </div>
+        
+        <button type="submit" class="btn btn-outline rounded b-success text-success">Submit</button>
+        </form>
+        
+        
+        <cfif isdefined('form.dsn')>
+        <h5 class="m-y-lg text-muted text-center">Generating your Components from <em>#form.dsn#</em></h5>
+        <div style="height: 350px; overflow: auto;">
+        <!---SET and Create the Component Directory--->
+        <cfset local.compDir = GetDirectoryFromPath(GetCurrentTemplatePath()) & "generated/#form.dsn#/" />
+		<cfif (DirectoryExists(local.compDir) EQ FALSE)>
+			<cfdirectory action="create" directory="#local.compDir#" />
 		</cfif>
-	<cfelseif (CompareNoCase(result.Database_ProductName, "Microsoft SQL Server") EQ 0)>
-		<!--- SQL Server --->
-		<cfquery dbtype="query" name="table_names">
-			 Select TABLE_NAME from Database where TABLE_TYPE='table' and TABLE_SCHEM='dbo'
-		</cfquery>
-  </cfif>
-  <cfset OrmDir = GetDirectoryFromPath(GetCurrentTemplatePath()) & "cfc/#form.tempdsn#/" />
-	<cfif (DirectoryExists(OrmDir) EQ FALSE)>
-		<cfdirectory action="create" directory="#OrmDir#" />
-	</cfif>
-
-	<cfloop query="table_names">
-    Creating ORM Component for Table: <strong><em>#table_names.table_name#</em></strong><br>
-    <cfquery name="temp" datasource="#form.tempdsn#" >
-		SELECT * FROM information_schema.columns
-		WHERE table_name = '#table_names.table_name#' and table_name !='trace_%'
-		ORDER BY ordinal_position
-		</cfquery>
-		
-	<cfdbinfo datasource="#form.tempdsn#" table="#table_names.table_name#" name="fKeys" type="foreignkeys">
-    		
-    <cfsavecontent variable="DBSchema">
-component output="false" persistent="true" table="#temp.table_name#" accessors="true"
-
-{<cfloop query="temp" ><cfset datatype = '' />
-	<cfswitch expression="#temp.data_type#" >
+		<!---End Component Directory Creation--->
+		<!---Begin the Generation--->
+        <cfdbinfo datasource="#form.dsn#" name="dsnTables" type="tables" />
+	        <cfquery name="getNonSysTables" dbtype="query">
+				SELECT REMARKS, TABLE_NAME, TABLE_TYPE
+				FROM dsnTables
+				WHERE TABLE_TYPE <> 'SYSTEM TABLE'
+				AND TABLE_TYPE <> 'VIEW'
+				AND TABLE_NAME NOT Like '%trace_%'
+			</cfquery>
+		    
+		    <cfdbinfo datasource="#form.dsn#" name="getColumns" type="columns" table="#getNonSysTables.TABLE_NAME#" />
+		    <cfdbinfo datasource="#form.dsn#" name="getfKeys" type="foreignkeys" table="#getNonSysTables.TABLE_NAME#">
+		    	    
+			<cfloop query="getNonSysTables">
+			<!---The CFSAVECONTENT has been Shifted "Against the Wall" to Preserve Component Formatting--->
+	        <cfsavecontent variable="ORMcomp">/**Component Generated by #local.ormGen.systemName# v.#local.ormgen.version#**/
+component output="false" persistent="true" table="#getNonSysTables.table_name#" accessors="true"{
+<cfloop query="getColumns" ><cfset datatype = '' />
+	<cfswitch expression="#getColumns.type_name#" >
+	    <!---Numeric/Iteger Types--->
 		<cfcase value="int"><cfset datatype = 'cf_sql_integer'><cfset sqldt = 'numeric'></cfcase>
 		<cfcase value="numeric"><cfset datatype = 'cf_sql_numeric'><cfset sqldt = 'numeric'></cfcase>
 		<cfcase value="datetime"><cfset datatype = 'cf_sql_date'><cfset sqldt = 'datetime'></cfcase>
@@ -121,10 +129,10 @@ component output="false" persistent="true" table="#temp.table_name#" accessors="
 		<cfcase value="nvarchar"><cfset datatype = 'cf_sql_varchar'><cfset sqldt = 'string'></cfcase>
 		<cfcase value="text"><cfset datatype = 'cf_sql_longvarchar'><cfset sqldt = 'string'></cfcase>
 	</cfswitch>
-	
-	property name="#column_name#" column="#column_name#" getter="true" <cfif currentrow eq 1>setter="false" fieldtype="id" 	generator="identity"<cfelse> setter="true" <cfif sqldt eq 'datetime'>ORMtype="date"<cfelse>type="#sqldt#"</cfif> sqltype="#datatype#"</cfif>;</cfloop>
-    <!---Foreign Key Constraints--->
-    <cfif fKeys.recordCount GTE 1>
+	property name="#column_name#" column="#column_name#" getter="true" <cfif currentrow eq 1>setter="false" fieldtype="id" generator="identity"<cfelse> setter="true" <cfif sqldt eq 'datetime'>ORMtype="date"<cfelse>type="#sqldt#"</cfif> sqltype="#datatype#"</cfif>;
+</cfloop>
+<!---Foreign Keys--->
+<cfif GetfKeys.recordCount GTE 1>
     <cfset local.relatedTable = '#fkeys.FKTABLE_NAME#'>
     <cfset local.relatedORM = 'property name="#rereplace(fkeys.PKTABLE_NAME, "_","","All")#" cfc="#temp.table_name#" fieldtype="many-to-many" type="array" getter="true" setter="true" linktable="#fkeys.PKTABLE_NAME#" inversejoincolumn="#fkeys.fkcolumn_name#" fkcolumn="#fkeys.pkcolumn_name#";'>
     //ORM RELATIONSHIPS:
@@ -140,19 +148,56 @@ component output="false" persistent="true" table="#temp.table_name#" accessors="
 	#local.RelatedORM#       
     </cfif>
     <!---End Secondary Routine for Foreign Key--->
+    
+    <!---Init this Component--->
 	public function init(){
 		return this;
 	}
 }
-   </cfsavecontent>
-
-   <cffile action="write" file="#expandpath('cfc/#form.tempdsn#/#temp.table_name#.cfc')#" output="#DBSchema#" nameconflict="overwrite">
-
-   
-
-    </cfloop>
-		
-</div>
-
-</cfif>
+	        </cfsavecontent>
+	        <cfscript>
+		       ORMcomp = removeWhitepace(ORMcomp);
+	        </cfscript>
+	        <cffile action="write" file="#expandpath('generated/#form.dsn#/#getNonSysTables.TABLE_NAME#.cfc')#" output="#ORMcomp#" nameconflict="overwrite">
+	        <div class="alert alert-info">
+		       Component <strong>#getNonSysTables.TABLE_NAME#.cfc</strong> Generated 
+	        </div>
+	        </cfloop>
+        <!---END The Generation--->
+        </div>
+        
+        <p></p>
+        <div class="alert alert-success">
+        Your Components now Reside in the folder: <em>#local.compDir#</em>
+        </div>
+        </cfif>
+        
+      </div>
+    </div>
+  </div>
+  
+  <footer class="black pos-rlt">
+    <div class="footer dk">
+      
+      <div class="b b-b"></div>
+      <div class="p-a-md">
+        <div class="row footer-bottom">
+          <div class="col-sm-8">
+            <small class="text-muted">&copy; Copyright 2014-#dateFormat(now(), "YYYY")#. All rights reserved.</small>
+          </div>
+          <div class="col-sm-4">
+            <div class="text-sm-right text-xs-left">
+              <strong>#local.ormgen.systemNAme# by #local.ormgen.author#</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer> 
+  <script src="libs/jquery/jquery/dist/jquery.js"></script>
+  <script src="libs/jquery/tether/dist/js/tether.min.js"></script>
+  <script src="libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="html/scripts/ui-scroll-to.js"></script>
+</body>
+</html>  
 </cfoutput>
