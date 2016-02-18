@@ -14,4 +14,9 @@ Change Log:
 * Foreign Keys have been implemented in Generator as well
    
 
- 
+Tested on:
+========== 
+* Adobe ColdFusion (ACF) 10 +
+* SQL Server
+* MySQL (Community Edition)
+* Apache Derby Datasources (ACF only)
