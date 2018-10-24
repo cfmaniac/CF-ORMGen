@@ -148,7 +148,7 @@ component output="false" persistent="true" table="#getNonSysTables.table_name#" 
     <cfset local.relatedTable = '#getNonSysTables.table_name#'>
     <cfset local.relatedORM = 'property name="#rereplace(local.GetfKeys.PKCOLUMN_NAME, "_","","All")#" cfc="#local.GetfKeys.FKTABLE_NAME#" fieldtype="many-to-many" type="array" getter="true" setter="true" linktable="#local.GetfKeys.FKTABLE_NAME#" inversejoincolumn="#local.GetfKeys.fkcolumn_name#" fkcolumn="#local.GetfKeys.FKCOLUMN_NAME#";'>
     //ORM RELATIONSHIPS:
-    <cfloop query="GetfKeys">
+    <cfloop query="local.GetfKeys">
     property name="#rereplace(local.GetfKeys.FKTABLE_NAME, "_","","All")#" cfc="#local.GetfKeys.FKTABLE_NAME#" fieldtype="many-to-many" type="array" linktable="#local.GetfKeys.FKTABLE_NAME#" inversejoincolumn="#local.GetfKeys.fkcolumn_name#" fkcolumn="#local.GetfKeys.FKCOLUMN_NAME#";
     </cfloop>
     </cfif>
